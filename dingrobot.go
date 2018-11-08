@@ -20,8 +20,8 @@ type Robot struct {
 	Webhook string
 }
 
-// New returns a dingtalk robot.
-func New(webhook string) Roboter {
+// NewRobot returns a dingtalk robot.
+func NewRobot(webhook string) Roboter {
 	return Robot{Webhook: webhook}
 }
 
