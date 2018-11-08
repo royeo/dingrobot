@@ -67,7 +67,7 @@ func (r Robot) SendMarkdown(title, text string, atMobiles []string, isAtAll bool
 	})
 }
 
-type messageResponse struct {
+type dingResponse struct {
 	Errcode int
 	Errmsg  string
 }
@@ -89,13 +89,13 @@ func (r Robot) send(msg interface{}) error {
 		return err
 	}
 
-	var mr messageResponse
-	err = json.Unmarshal(data, &mr)
+	var dr dingResponse
+	err = json.Unmarshal(data, &dr)
 	if err != nil {
 		return err
 	}
-	if mr.Errcode != 0 {
-		return fmt.Errorf("dingrobot send failed: %v", mr.Errmsg)
+	if dr.Errcode != 0 {
+		return fmt.Errorf("dingrobot send failed: %v", dr.Errmsg)
 	}
 
 	return nil
