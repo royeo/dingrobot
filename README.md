@@ -105,6 +105,6 @@ func main() {
 }
 ```
 
-## LICENSE
+## License
 
-[MIT](https://github.com/royeo/dingrobot/blob/master/LICENSE)
+MIT Copyright (c) 2018 Royeo
