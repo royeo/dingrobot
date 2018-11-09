@@ -104,3 +104,7 @@ func main() {
 	}
 }
 ```
+
+## LICENSE
+
+[MIT](https://github.com/royeo/dingrobot/blob/master/LICENSE)
