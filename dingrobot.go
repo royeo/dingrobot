@@ -13,6 +13,7 @@ type Roboter interface {
 	SendText(content string, atMobiles []string, isAtAll bool) error
 	SendLink(title, text, messageURL, picURL string) error
 	SendMarkdown(title, text string, atMobiles []string, isAtAll bool) error
+	SendActionCard(title, text, singleTitle, singleURL, btnOrientation, hideAvatar string) error
 }
 
 // Robot represents a dingtalk custom robot that can send messages to groups.
@@ -29,10 +30,10 @@ func NewRobot(webhook string) Roboter {
 func (r Robot) SendText(content string, atMobiles []string, isAtAll bool) error {
 	return r.send(&textMessage{
 		MsgType: msgTypeText,
-		Text: textParam{
+		Text: textParams{
 			Content: content,
 		},
-		At: atParam{
+		At: atParams{
 			AtMobiles: atMobiles,
 			IsAtAll:   isAtAll,
 		},
@@ -43,7 +44,7 @@ func (r Robot) SendText(content string, atMobiles []string, isAtAll bool) error 
 func (r Robot) SendLink(title, text, messageURL, picURL string) error {
 	return r.send(&linkMessage{
 		MsgType: msgTypeLink,
-		Link: linkParam{
+		Link: linkParams{
 			Title:      title,
 			Text:       text,
 			MessageURL: messageURL,
@@ -56,13 +57,28 @@ func (r Robot) SendLink(title, text, messageURL, picURL string) error {
 func (r Robot) SendMarkdown(title, text string, atMobiles []string, isAtAll bool) error {
 	return r.send(&markdownMessage{
 		MsgType: msgTypeMarkdown,
-		Markdown: markdownParam{
+		Markdown: markdownParams{
 			Title: title,
 			Text:  text,
 		},
-		At: atParam{
+		At: atParams{
 			AtMobiles: atMobiles,
 			IsAtAll:   isAtAll,
+		},
+	})
+}
+
+// SendActionCard send a action card type message.
+func (r Robot) SendActionCard(title, text, singleTitle, singleURL, btnOrientation, hideAvatar string) error {
+	return r.send(&actionCardMessage{
+		MsgType: msgTypeActionCard,
+		ActionCard: actionCardParams{
+			Title:          title,
+			Text:           text,
+			SingleTitle:    singleTitle,
+			SingleURL:      singleURL,
+			BtnOrientation: btnOrientation,
+			HideAvatar:     hideAvatar,
 		},
 	})
 }
