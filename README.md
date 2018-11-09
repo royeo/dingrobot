@@ -2,6 +2,12 @@
 
 [钉钉自定义机器人](https://open-doc.dingtalk.com/docs/doc.htm?treeId=257&articleId=105735&docType=1) Golang API.
 
+支持的消息类型：
+- 文本类型
+- link 类型
+- markdown 类型
+- 整体跳转 ActionCard 类型
+
 ## Installation
 
 Install:
@@ -22,6 +28,7 @@ import "github.com/royeo/dingrobot"
 
 ```go
 func main() {
+	// You should replace the webhook here with your own.
 	webhook := "https://oapi.dingtalk.com/robot/send?access_token=xxx"
 	robot := dingrobot.NewRobot(webhook)
 
@@ -40,6 +47,7 @@ func main() {
 
 ```go
 func main() {
+	// You should replace the webhook here with your own.
 	webhook := "https://oapi.dingtalk.com/robot/send?access_token=xxx"
 	robot := dingrobot.NewRobot(webhook)
 
@@ -59,6 +67,7 @@ func main() {
 
 ```go
 func main() {
+	// You should replace the webhook here with your own.
 	webhook := "https://oapi.dingtalk.com/robot/send?access_token=xxx"
 	robot := dingrobot.NewRobot(webhook)
 
@@ -78,6 +87,7 @@ func main() {
 
 ```go
 func main() {
+	// You should replace the webhook here with your own.
 	webhook := "https://oapi.dingtalk.com/robot/send?access_token=xxx"
 	robot := dingrobot.NewRobot(webhook)
 
