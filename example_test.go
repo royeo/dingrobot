@@ -37,7 +37,7 @@ func ExampleSendLink() {
 	}
 }
 
-func ExampleMarkdown() {
+func ExampleSendMarkdown() {
 	// You should replace the webhook here with your own.
 	webhook := "https://oapi.dingtalk.com/robot/send?access_token=xxx"
 	robot := dingrobot.NewRobot(webhook)

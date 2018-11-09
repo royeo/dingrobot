@@ -21,7 +21,7 @@ type Robot struct {
 	Webhook string
 }
 
-// NewRobot returns a dingtalk robot.
+// NewRobot returns a roboter that can send messages.
 func NewRobot(webhook string) Roboter {
 	return Robot{Webhook: webhook}
 }
