@@ -1,6 +1,6 @@
 # Dingrobot
 
-[钉钉自定义机器人](https://open-doc.dingtalk.com/docs/doc.htm?treeId=257&articleId=105735&docType=1) Golang API.
+钉钉自定义机器人 Golang API.
 
 支持的消息类型：
 - 文本类型
