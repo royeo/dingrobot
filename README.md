@@ -1,6 +1,6 @@
 # Dingrobot
 
-[![GoDoc](https://godoc.org/github.com/royeo/dingrobot?status.svg)](https://godoc.org/github.com/royeo/dingrobot?status.svg) 
+[![GoDoc](https://godoc.org/github.com/royeo/dingrobot?status.svg)](https://godoc.org/github.com/royeo/dingrobot) 
 
 钉钉自定义机器人 Golang API.
 
