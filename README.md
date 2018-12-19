@@ -1,5 +1,7 @@
 # Dingrobot
 
+[![GoDoc](https://godoc.org/github.com/royeo/dingrobot?status.svg)](https://godoc.org/github.com/royeo/dingrobot?status.svg) 
+
 钉钉自定义机器人 Golang API.
 
 支持的消息类型：
