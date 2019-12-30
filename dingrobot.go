@@ -2,10 +2,15 @@ package dingrobot
 
 import (
 	"bytes"
+	"crypto/hmac"
+	"crypto/sha256"
+	"encoding/base64"
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
 	"net/http"
+	"net/url"
+	"time"
 )
 
 // Roboter is the interface implemented by Robot that can send multiple types of messages.
@@ -14,16 +19,23 @@ type Roboter interface {
 	SendLink(title, text, messageURL, picURL string) error
 	SendMarkdown(title, text string, atMobiles []string, isAtAll bool) error
 	SendActionCard(title, text, singleTitle, singleURL, btnOrientation, hideAvatar string) error
+	SetSecret(secret string)
 }
 
 // Robot represents a dingtalk custom robot that can send messages to groups.
 type Robot struct {
-	Webhook string
+	webHook string
+	secret  string
 }
 
 // NewRobot returns a roboter that can send messages.
-func NewRobot(webhook string) Roboter {
-	return Robot{Webhook: webhook}
+func NewRobot(webHook string) Roboter {
+	return &Robot{webHook: webHook}
+}
+
+// SetSecret set the secret to add additional signature when send request
+func (r *Robot) SetSecret(secret string) {
+	r.secret = secret
 }
 
 // SendText send a text type message.
@@ -84,8 +96,8 @@ func (r Robot) SendActionCard(title, text, singleTitle, singleURL, btnOrientatio
 }
 
 type dingResponse struct {
-	Errcode int
-	Errmsg  string
+	Errcode int    `json:"errcode"`
+	Errmsg  string `json:"errmsg"`
 }
 
 func (r Robot) send(msg interface{}) error {
@@ -94,7 +106,11 @@ func (r Robot) send(msg interface{}) error {
 		return err
 	}
 
-	resp, err := http.Post(r.Webhook, "application/json", bytes.NewReader(m))
+	webURL := r.webHook
+	if len(r.secret) != 0 {
+		webURL += genSignedURL(r.secret)
+	}
+	resp, err := http.Post(webURL, "application/json", bytes.NewReader(m))
 	if err != nil {
 		return err
 	}
@@ -115,4 +131,19 @@ func (r Robot) send(msg interface{}) error {
 	}
 
 	return nil
+}
+
+func genSignedURL(secret string) string {
+	timeStr := fmt.Sprintf("%d", time.Now().UnixNano()/1e6)
+	sign := fmt.Sprintf("%s\n%s", timeStr, secret)
+	signData := computeHmacSha256(sign, secret)
+	encodeURL := url.QueryEscape(signData)
+	return fmt.Sprintf("&timestamp=%s&sign=%s", timeStr, encodeURL)
+}
+
+func computeHmacSha256(message string, secret string) string {
+	key := []byte(secret)
+	h := hmac.New(sha256.New, key)
+	h.Write([]byte(message))
+	return base64.StdEncoding.EncodeToString(h.Sum(nil))
 }
